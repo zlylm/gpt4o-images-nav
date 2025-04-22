@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT-4o 图片案例展示</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-images"></i>
+            <span>GPT-4o 图片案例</span>
+        </div>
+        <div class="nav-search">
+            <input type="text" placeholder="搜索案例...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="active">首页</a>
+            <a href="#">最新</a>
+            <a href="#">热门</a>
+        </div>
+    </nav>
+
+    <div class="filters">
+        <div class="filter-tags">
+            <span class="tag active">全部</span>
+            <span class="tag">人物</span>
+            <span class="tag">风景</span>
+            <span class="tag">艺术</span>
+            <span class="tag">设计</span>
+        </div>
+        <div class="sort-options">
+            <select>
+                <option value="latest">最新发布</option>
+                <option value="popular">最受欢迎</option>
+                <option value="random">随机排序</option>
+            </select>
+        </div>
+    </div>
+
+    <main>
+        <div class="cases-container" id="casesContainer">
+            <!-- 案例将通过JavaScript动态加载 -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>项目信息</h3>
+                <p>展示GPT-4o生成的最优秀图片案例，分享创意和灵感。</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>项目信息</h3>
+                <p>展示GPT-4o生成的最优秀图片案例，分享创意和灵感。</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>项目地址</h3>
+                <div class="social-links">
+
+                    <a href="https://github.com/jamez-bondos/awesome-gpt4o-images"><i class="fab fa-github"></i></a>
+                    <a href="https://github.com/jamez-bondos/awesome-gpt4o-images"><i class="fab fa-github"></i></a>
+                    <a href="https://github.com/jamez-bondos/awesome-gpt4o-images"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 GPT-4o 图片案例展示. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="cases-data.js"></script>
+    <script>
+        function renderCases(cases = resultArr) {
+            const container = document.getElementById('casesContainer');
+            container.innerHTML = '';
+
+            cases.forEach(function(caseItem) {
+                const card = document.createElement('div');
+                card.className = 'case-card';
+                card.innerHTML = `
+                    <div class="case-image-container">
+                        <img src="${caseItem.image}" alt="${caseItem.name}" class="case-image" loading="lazy">
+                        <div class="case-overlay">
+                            <button class="view-details">查看详情</button>
+                        </div>
+                    </div>
+                    <div class="case-content">
+                        <h3 class="case-title">${caseItem.name}</h3>
+                        <div class="case-author">
+                            <i class="fas fa-user"></i>
+                            <span>${caseItem.author}</span>
+                        </div>
+                        <div class="case-prompt">
+                            <i class="fas fa-quote-left"></i>
+                            <div class="prompt-text">${caseItem.prompt}</div>
+                            <button class="copy-prompt" title="复制提示词">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                // 添加复制功能
+                const copyButton = card.querySelector('.copy-prompt');
+                copyButton.addEventListener('click', function() {
+                    navigator.clipboard.writeText(caseItem.prompt).then(() => {
+                        copyButton.classList.add('copied');
+                        copyButton.innerHTML = '<i class="fas fa-check"></i>';
+                        setTimeout(() => {
+                            copyButton.classList.remove('copied');
+                            copyButton.innerHTML = '<i class="fas fa-copy"></i>';
+                        }, 2000);
+                    });
+                });
+
+                container.appendChild(card);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCases();
+        });
+    </script>
+</body>
+</html> 

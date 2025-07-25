@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智联科技 - 物联网解决方案专家</title>
+    <meta name="description" content="专业的物联网解决方案提供商，专注智慧路灯、智慧农业、智慧水利等领域">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <circle cx="20" cy="20" r="18" stroke="#1890FF" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="12" stroke="#1890FF" stroke-width="1.5"/>
+                    <circle cx="20" cy="20" r="6" fill="#1890FF"/>
+                    <circle cx="12" cy="12" r="2" fill="#722ED1"/>
+                    <circle cx="28" cy="12" r="2" fill="#722ED1"/>
+                    <circle cx="12" cy="28" r="2" fill="#722ED1"/>
+                    <circle cx="28" cy="28" r="2" fill="#722ED1"/>
+                    <line x1="20" y1="8" x2="20" y2="14" stroke="#1890FF" stroke-width="1"/>
+                    <line x1="32" y1="20" x2="26" y2="20" stroke="#1890FF" stroke-width="1"/>
+                    <line x1="20" y1="32" x2="20" y2="26" stroke="#1890FF" stroke-width="1"/>
+                    <line x1="8" y1="20" x2="14" y2="20" stroke="#1890FF" stroke-width="1"/>
+                </svg>
+                <span class="logo-text">能加新能源</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">首页</a></li>
+                <li><a href="#products" class="nav-link">产品方案</a></li>
+                <li><a href="#technology" class="nav-link">技术实力</a></li>
+                <li><a href="#about" class="nav-link">关于我们</a></li>
+                <li><a href="#contact" class="nav-link">联系我们</a></li>
+            </ul>
+            <button class="nav-cta">免费咨询</button>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="hero" id="home">
+        <div class="hero-background">
+            <canvas id="particleCanvas"></canvas>
+            <div class="hero-grid"></div>
+        </div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="title-main">智联万物</span>
+                    <span class="title-accent">赋能未来</span>
+                </h1>
+                <p class="hero-subtitle">
+                    专业的物联网解决方案提供商，致力于通过先进的IoT技术
+                    <br>为智慧城市、智慧农业、智慧水利提供创新解决方案
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="500">0</span>
+                        <span class="stat-label">+项目案例</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="50">0</span>
+                        <span class="stat-label">+城市覆盖</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="98">0</span>
+                        <span class="stat-label">%客户满意度</span>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <button class="btn-primary">了解方案</button>
+                    <button class="btn-secondary">立即咨询</button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="iot-network">
+                    <div class="network-node central-node">
+                        <div class="node-icon">
+                            <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                                <circle cx="30" cy="30" r="25" stroke="#1890FF" stroke-width="2"/>
+                                <circle cx="30" cy="30" r="15" fill="#1890FF" opacity="0.2"/>
+                                <circle cx="30" cy="30" r="8" fill="#1890FF"/>
+                            </svg>
+                        </div>
+                        <span class="node-label">IoT核心</span>
+                    </div>
+                    <div class="network-node smart-light">
+                        <div class="node-icon">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                                <path d="M20 5L25 15H15L20 5Z" fill="#722ED1"/>
+                                <rect x="18" y="15" width="4" height="20" fill="#722ED1"/>
+                                <circle cx="20" cy="37" r="2" fill="#722ED1"/>
+                            </svg>
+                        </div>
+                        <span class="node-label">智慧路灯</span>
+                    </div>
+                    <div class="network-node smart-farm">
+                        <div class="node-icon">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                                <path d="M10 30H30V35H10V30Z" fill="#52C41A"/>
+                                <path d="M15 20C15 15 18 10 20 10C22 10 25 15 25 20V30H15V20Z" fill="#52C41A"/>
+                                <circle cx="12" cy="25" r="2" fill="#52C41A"/>
+                                <circle cx="28" cy="25" r="2" fill="#52C41A"/>
+                            </svg>
+                        </div>
+                        <span class="node-label">智慧农业</span>
+                    </div>
+                    <div class="network-node smart-water">
+                        <div class="node-icon">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                                <path d="M20 10C15 15 10 20 10 25C10 30 14.5 35 20 35C25.5 35 30 30 30 25C30 20 25 15 20 10Z" fill="#1890FF"/>
+                                <circle cx="18" cy="22" r="2" fill="#ffffff" opacity="0.3"/>
+                            </svg>
+                        </div>
+                        <span class="node-label">智慧水利</span>
+                    </div>
+                    <svg class="connection-lines" width="100%" height="100%">
+                        <defs>
+                            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#1890FF;stop-opacity:0"/>
+                                <stop offset="50%" style="stop-color:#1890FF;stop-opacity:1"/>
+                                <stop offset="100%" style="stop-color:#722ED1;stop-opacity:0"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心业务展示 -->
+    <section class="business-section" id="products">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">核心业务</h2>
+                <p class="section-subtitle">专注物联网技术创新，为各行业提供智能化解决方案</p>
+            </div>
+            <div class="business-grid">
+                <div class="business-card" data-business="smart-light">
+                    <div class="card-background"></div>
+                    <div class="card-icon">
+                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                            <path d="M40 10L50 30H30L40 10Z" fill="#722ED1"/>
+                            <rect x="36" y="30" width="8" height="40" fill="#722ED1"/>
+                            <circle cx="40" cy="74" r="4" fill="#722ED1"/>
+                            <circle cx="40" cy="20" r="15" stroke="#1890FF" stroke-width="2" fill="none" opacity="0.3"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">智慧路灯</h3>
+                    <p class="card-description">
+                        集成LED照明、环境监测、信息发布、充电桩等多功能于一体的智能路灯系统，
+                        实现远程控制、故障预警、节能管理等智能化功能。
+                    </p>
+                    <div class="card-features">
+                        <span class="feature-tag">远程控制</span>
+                        <span class="feature-tag">节能管理</span>
+                        <span class="feature-tag">故障预警</span>
+                    </div>
+                    <a href="#" class="card-link">了解详情 →</a>
+                </div>
+
+                <div class="business-card" data-business="smart-farm">
+                    <div class="card-background"></div>
+                    <div class="card-icon">
+                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                            <path d="M20 60H60V70H20V60Z" fill="#52C41A"/>
+                            <path d="M30 40C30 30 36 20 40 20C44 20 50 30 50 40V60H30V40Z" fill="#52C41A"/>
+                            <circle cx="24" cy="50" r="4" fill="#52C41A"/>
+                            <circle cx="56" cy="50" r="4" fill="#52C41A"/>
+                            <path d="M15 35C20 30 25 35 30 30" stroke="#52C41A" stroke-width="2" fill="none"/>
+                            <path d="M50 30C55 35 60 30 65 35" stroke="#52C41A" stroke-width="2" fill="none"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">智慧农业</h3>
+                    <p class="card-description">
+                        通过物联网传感器、大数据分析等技术，实现农业生产的精准化、自动化管理，
+                        提高农作物产量和品质，降低生产成本。
+                    </p>
+                    <div class="card-features">
+                        <span class="feature-tag">精准灌溉</span>
+                        <span class="feature-tag">环境监测</span>
+                        <span class="feature-tag">智能决策</span>
+                    </div>
+                    <a href="#" class="card-link">了解详情 →</a>
+                </div>
+
+                <div class="business-card" data-business="smart-water">
+                    <div class="card-background"></div>
+                    <div class="card-icon">
+                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                            <path d="M40 20C30 30 20 40 20 50C20 60 29 70 40 70C51 70 60 60 60 50C60 40 50 30 40 20Z" fill="#1890FF"/>
+                            <circle cx="36" cy="44" r="4" fill="#ffffff" opacity="0.3"/>
+                            <path d="M25 55C30 50 35 55 40 50C45 55 50 50 55 55" stroke="#ffffff" stroke-width="2" fill="none" opacity="0.5"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">智慧水利</h3>
+                    <p class="card-description">
+                        构建智能化水利管理系统，实现水资源的实时监测、预警预报、调度管理，
+                        保障水资源的合理利用和水环境安全。
+                    </p>
+                    <div class="card-features">
+                        <span class="feature-tag">实时监测</span>
+                        <span class="feature-tag">预警预报</span>
+                        <span class="feature-tag">智能调度</span>
+                    </div>
+                    <a href="#" class="card-link">了解详情 →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技术实力数据 -->
+    <section class="stats-section" id="technology">
+        <div class="stats-background">
+            <canvas id="statsCanvas"></canvas>
+            <div class="stats-grid-pattern"></div>
+            <div class="data-streams">
+                <div class="stream stream-1"></div>
+                <div class="stream stream-2"></div>
+                <div class="stream stream-3"></div>
+                <div class="stream stream-4"></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                            <rect x="10" y="20" width="40" height="30" rx="4" stroke="#1890FF" stroke-width="2" fill="none"/>
+                            <circle cx="30" cy="35" r="8" fill="#1890FF" opacity="0.2"/>
+                            <circle cx="30" cy="35" r="4" fill="#1890FF"/>
+                            <path d="M15 15L25 10L35 15L45 10" stroke="#722ED1" stroke-width="2" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="stat-number" data-target="500">0</div>
+                    <div class="stat-label">项目案例</div>
+                    <div class="stat-progress">
+                        <div class="progress-bar" data-width="85"></div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                            <circle cx="30" cy="30" r="20" stroke="#1890FF" stroke-width="2" fill="none"/>
+                            <circle cx="30" cy="30" r="12" fill="#1890FF" opacity="0.2"/>
+                            <circle cx="20" cy="20" r="3" fill="#722ED1"/>
+                            <circle cx="40" cy="20" r="3" fill="#722ED1"/>
+                            <circle cx="20" cy="40" r="3" fill="#722ED1"/>
+                            <circle cx="40" cy="40" r="3" fill="#722ED1"/>
+                            <circle cx="30" cy="15" r="2" fill="#52C41A"/>
+                            <circle cx="45" cy="30" r="2" fill="#52C41A"/>
+                            <circle cx="30" cy="45" r="2" fill="#52C41A"/>
+                            <circle cx="15" cy="30" r="2" fill="#52C41A"/>
+                        </svg>
+                    </div>
+                    <div class="stat-number" data-target="50">0</div>
+                    <div class="stat-label">覆盖城市</div>
+                    <div class="stat-progress">
+                        <div class="progress-bar" data-width="75"></div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                            <path d="M10 40L20 30L30 35L40 25L50 30" stroke="#1890FF" stroke-width="3" fill="none"/>
+                            <circle cx="20" cy="30" r="4" fill="#722ED1"/>
+                            <circle cx="30" cy="35" r="4" fill="#722ED1"/>
+                            <circle cx="40" cy="25" r="4" fill="#722ED1"/>
+                            <rect x="5" y="45" width="50" height="2" fill="#1890FF" opacity="0.3"/>
+                            <rect x="5" y="15" width="2" height="32" fill="#1890FF" opacity="0.3"/>
+                        </svg>
+                    </div>
+                    <div class="stat-number" data-target="200">0</div>
+                    <div class="stat-label">合作伙伴</div>
+                    <div class="stat-progress">
+                        <div class="progress-bar" data-width="90"></div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                            <rect x="15" y="15" width="30" height="30" rx="4" stroke="#1890FF" stroke-width="2" fill="none"/>
+                            <path d="M25 30L28 33L35 26" stroke="#52C41A" stroke-width="3" fill="none"/>
+                            <circle cx="30" cy="30" r="20" stroke="#722ED1" stroke-width="1" fill="none" opacity="0.3"/>
+                            <circle cx="30" cy="30" r="25" stroke="#1890FF" stroke-width="1" fill="none" opacity="0.2"/>
+                        </svg>
+                    </div>
+                    <div class="stat-number" data-target="120">0</div>
+                    <div class="stat-label">技术专利</div>
+                    <div class="stat-progress">
+                        <div class="progress-bar" data-width="95"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品详情展示区域 -->
+    <section class="product-showcase" id="showcase">
+        <div class="showcase-background">
+            <canvas id="showcaseCanvas"></canvas>
+            <div class="floating-elements">
+                <div class="float-element" data-speed="2"></div>
+                <div class="float-element" data-speed="1.5"></div>
+                <div class="float-element" data-speed="3"></div>
+                <div class="float-element" data-speed="2.5"></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="showcase-content">
+                <div class="showcase-nav">
+                    <button class="showcase-tab active" data-product="smart-light">智慧路灯</button>
+                    <button class="showcase-tab" data-product="smart-farm">智慧农业</button>
+                    <button class="showcase-tab" data-product="smart-water">智慧水利</button>
+                </div>
+                
+                <div class="showcase-details">
+                    <div class="product-detail active" data-product="smart-light">
+                        <div class="detail-content">
+                            <div class="detail-text">
+                                <h3 class="detail-title">智慧路灯系统</h3>
+                                <p class="detail-description">
+                                    集成多功能智能路灯解决方案，融合LED照明、环境监测、信息发布、
+                                    充电桩等功能，通过物联网技术实现智能化管理和节能控制。
+                                </p>
+                                <div class="detail-features">
+                                    <div class="feature-grid">
+                                        <div class="feature-point">
+                                            <div class="feature-icon">💡</div>
+                                            <div class="feature-info">
+                                                <h4>智能照明</h4>
+                                                <p>根据环境光线自动调节亮度</p>
+                                            </div>
+                                        </div>
+                                        <div class="feature-point">
+                                            <div class="feature-icon">📊</div>
+                                            <div class="feature-info">
+                                                <h4>环境监测</h4>
+                                                <p>实时监测PM2.5、温湿度等</p>
+                                            </div>
+                                        </div>
+                                        <div class="feature-point">
+                                            <div class="feature-icon">🔌</div>
+                                            <div class="feature-info">
+                                                <h4>充电服务</h4>
+                                                <p>集成电动车充电桩功能</p>
+                                            </div>
+                                        </div>
+                                        <div class="feature-point">
+                                            <div class="feature-icon">📱</div>
+                                            <div class="feature-info">
+                                                <h4>远程控制</h4>
+                                                <p>手机APP远程监控管理</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-visual">
+                                <div class="product-model">
+                                    <div class="model-container">
+                                        <div class="light-pole">
+                                            <div class="pole-base"></div>
+                                            <div class="pole-body"></div>
+                                            <div class="light-head">
+                                                <div class="led-panel"></div>
+                                                <div class="sensor-array"></div>
+                                            </div>
+                                            <div class="charging-port"></div>
+                                        </div>
+                                        <div class="signal-waves">
+                                            <div class="wave"></div>
+                                            <div class="wave"></div>
+                                            <div class="wave"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-detail" data-product="smart-farm">
+                        <div class="detail-content">
+                            <div class="detail-text">
+                                <h3 class="detail-title">智慧农业平台</h3>
+                                <p class="detail-description">
+                                    基于物联网技术的精准农业管理系统，通过传感器网络、大数据分析
+                                    和人工智能，实现农业生产的智能化、精准化管理。
+                                </p>
+                                <div class="detail-features">
+                                    <div class="feature-grid">
+                                        <div class="feature-point">
+                                            <div class="feature-icon">🌱</div>
+                                            <div class="feature-info">
+                                                <h4>精准灌溉</h4>
+                                                <p>智能控制灌溉系统节水增效</p>
+                                            </div>
+                                        </div>
+                                        <div class="feature-point">
+                                            <div class="feature-icon">🌡️</div>
+                                            <div class="feature-info">
+                                                <h4>环境监控</h4>
+                                                <p>实时监测土壤、气候条件</p>
+                                            </div>
+                                        </div>
+                                        <div class="feature-point">
+                                            <div class="feature-icon">🤖</div>
+                                            <div class="feature-info">
+                                                <h4>AI决策</h4>
+                                                <p>智能分析提供种植建议</p>
+                                            </div>
+                                        </div>
+                                        <div class="feature-point">
+                                            <div class="feature-icon">📈</div>
+                                            <div class="feature-info">
+                                                <h4>产量预测</h4>
+                                                <p>大数据分析预测作物产量</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-visual">
+                                <div class="product-model">
+                                    <div class="farm-scene">
+                                        <div class="crop-rows">
+                                            <div class="crop-row"></div>
+                                            <div class="crop-row"></div>
+                                            <div class="crop-row"></div>
+                                        </div>
+                                        <div class="sensors">
+                                            <div class="sensor soil-sensor"></div>
+                                            <div class="sensor weather-station"></div>
+                                            <div class="sensor camera-sensor"></div>
+                                        </div>
+                                        <div class="irrigation-system">
+                                            <div class="sprinkler"></div>
+                                            <div class="water-drops"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-detail" data-product="smart-water">
+                        <div class="detail-content">
+                            <div class="detail-text">
+                                <h3 class="detail-title">智慧水利管理</h3>
+                                <p class="detail-description">
+                                    构建智能化水利管理体系，通过物联网传感器、大数据分析等技术，
+                                    实现水资源的智能监测、预警和调度管理。
+                                </p>
+                                <div class="detail-features">
+                                    <div class="feature-grid">
+                                        <div class="feature-point">
+                                            <div class="feature-icon">💧</div>
+                                            <div class="feature-info">
+                                                <h4>水位监测</h4>
+                                                <p>实时监测河流湖泊水位变化</p>
+                                            </div>
+                                        </div>
+                                        <div class="feature-point">
+                                            <div class="feature-icon">⚠️</div>
+                                            <div class="feature-info">
+                                                <h4>预警系统</h4>
+                                                <p>洪涝干旱智能预警预报</p>
+                                            </div>
+                                        </div>
+                                        <div class="feature-point">
+                                            <div class="feature-icon">🎛️</div>
+                                            <div class="feature-info">
+                                                <h4>智能调度</h4>
+                                                <p>水闸泵站自动化控制调度</p>
+                                            </div>
+                                        </div>
+                                        <div class="feature-point">
+                                            <div class="feature-icon">🔍</div>
+                                            <div class="feature-info">
+                                                <h4>水质检测</h4>
+                                                <p>多参数水质在线监测分析</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-visual">
+                                <div class="product-model">
+                                    <div class="water-system">
+                                        <div class="reservoir">
+                                            <div class="water-surface"></div>
+                                            <div class="water-level-indicator"></div>
+                                        </div>
+                                        <div class="monitoring-stations">
+                                            <div class="station water-quality"></div>
+                                            <div class="station flow-meter"></div>
+                                            <div class="station weather-buoy"></div>
+                                        </div>
+                                        <div class="control-gates">
+                                            <div class="gate"></div>
+                                            <div class="water-flow"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 解决方案预览 -->
+    <section class="solution-section">
+        <div class="solution-background">
+            <canvas id="solutionCanvas"></canvas>
+            <div class="geometric-shapes">
+                <div class="shape hexagon"></div>
+                <div class="shape triangle"></div>
+                <div class="shape circle"></div>
+                <div class="shape square"></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="solution-content">
+                <div class="solution-text">
+                    <h2 class="section-title">完整解决方案</h2>
+                    <p class="section-subtitle">
+                        从感知层到应用层的端到端物联网解决方案，
+                        为客户提供一站式智能化服务
+                    </p>
+                    <div class="solution-features">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="12" r="10" stroke="#1890FF" stroke-width="2"/>
+                                    <path d="M8 12L11 15L16 9" stroke="#1890FF" stroke-width="2" fill="none"/>
+                                </svg>
+                            </div>
+                            <div class="feature-content">
+                                <h4>感知层</h4>
+                                <p>各类传感器、RFID、摄像头等设备采集数据</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <rect x="3" y="11" width="18" height="2" fill="#1890FF"/>
+                                    <circle cx="6" cy="12" r="2" fill="#722ED1"/>
+                                    <circle cx="12" cy="12" r="2" fill="#722ED1"/>
+                                    <circle cx="18" cy="12" r="2" fill="#722ED1"/>
+                                </svg>
+                            </div>
+                            <div class="feature-content">
+                                <h4>网络层</h4>
+                                <p>5G、WiFi、LoRa等多种通信方式数据传输</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <rect x="4" y="4" width="16" height="16" rx="2" stroke="#1890FF" stroke-width="2" fill="none"/>
+                                    <rect x="8" y="8" width="8" height="2" fill="#1890FF"/>
+                                    <rect x="8" y="12" width="6" height="2" fill="#1890FF"/>
+                                    <rect x="8" y="16" width="4" height="2" fill="#1890FF"/>
+                                </svg>
+                            </div>
+                            <div class="feature-content">
+                                <h4>平台层</h4>
+                                <p>云计算平台提供数据存储、处理和分析服务</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <rect x="2" y="6" width="20" height="12" rx="2" stroke="#1890FF" stroke-width="2" fill="none"/>
+                                    <circle cx="7" cy="12" r="2" fill="#722ED1"/>
+                                    <rect x="11" y="10" width="8" height="4" fill="#1890FF" opacity="0.3"/>
+                                </svg>
+                            </div>
+                            <div class="feature-content">
+                                <h4>应用层</h4>
+                                <p>面向用户的各类智能应用和管理系统</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="solution-visual">
+                    <div class="architecture-diagram">
+                        <div class="arch-layer" data-layer="application">
+                            <div class="layer-title">应用层</div>
+                            <div class="layer-nodes">
+                                <div class="arch-node">智慧路灯管理</div>
+                                <div class="arch-node">农业监控系统</div>
+                                <div class="arch-node">水利调度平台</div>
+                            </div>
+                        </div>
+                        <div class="arch-layer" data-layer="platform">
+                            <div class="layer-title">平台层</div>
+                            <div class="layer-nodes">
+                                <div class="arch-node">数据处理</div>
+                                <div class="arch-node">AI分析</div>
+                                <div class="arch-node">云计算</div>
+                            </div>
+                        </div>
+                        <div class="arch-layer" data-layer="network">
+                            <div class="layer-title">网络层</div>
+                            <div class="layer-nodes">
+                                <div class="arch-node">5G</div>
+                                <div class="arch-node">WiFi</div>
+                                <div class="arch-node">LoRa</div>
+                            </div>
+                        </div>
+                        <div class="arch-layer" data-layer="sensor">
+                            <div class="layer-title">感知层</div>
+                            <div class="layer-nodes">
+                                <div class="arch-node">传感器</div>
+                                <div class="arch-node">摄像头</div>
+                                <div class="arch-node">RFID</div>
+                            </div>
+                        </div>
+                        <svg class="data-flow" width="100%" height="100%">
+                            <defs>
+                                <linearGradient id="flowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#1890FF;stop-opacity:1"/>
+                                    <stop offset="100%" style="stop-color:#722ED1;stop-opacity:1"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部信息区 -->
+    <footer class="footer">
+        <div class="footer-background">
+            <div class="footer-grid-pattern"></div>
+        </div>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+                            <circle cx="25" cy="25" r="22" stroke="#1890FF" stroke-width="2"/>
+                            <circle cx="25" cy="25" r="15" stroke="#1890FF" stroke-width="1.5"/>
+                            <circle cx="25" cy="25" r="8" fill="#1890FF"/>
+                            <circle cx="15" cy="15" r="2" fill="#722ED1"/>
+                            <circle cx="35" cy="15" r="2" fill="#722ED1"/>
+                            <circle cx="15" cy="35" r="2" fill="#722ED1"/>
+                            <circle cx="35" cy="35" r="2" fill="#722ED1"/>
+                        </svg>
+                        <span class="logo-text">智联科技</span>
+                    </div>
+                    <p class="footer-description">
+                        专业的物联网解决方案提供商，致力于通过先进的IoT技术为各行业提供智能化解决方案，
+                        推动数字化转型和智慧城市建设。
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">微信</a>
+                        <a href="#" class="social-link">微博</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">产品方案</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">智慧路灯系统</a></li>
+                        <li><a href="#">智慧农业平台</a></li>
+                        <li><a href="#">智慧水利管理</a></li>
+                        <li><a href="#">物联网平台</a></li>
+                        <li><a href="#">数据分析服务</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">技术支持</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">技术文档</a></li>
+                        <li><a href="#">API接口</a></li>
+                        <li><a href="#">开发者中心</a></li>
+                        <li><a href="#">常见问题</a></li>
+                        <li><a href="#">在线客服</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">联系我们</h4>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <span class="contact-label">电话：</span>
+                            <span class="contact-value">400-888-9999</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-label">邮箱：</span>
+                            <span class="contact-value">info@zhilian-tech.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-label">地址：</span>
+                            <span class="contact-value">北京市海淀区中关村科技园</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; 2024 智联科技有限公司. 保留所有权利.</p>
+                </div>
+                <div class="footer-legal">
+                    <a href="#">隐私政策</a>
+                    <a href="#">服务条款</a>
+                    <a href="#">网站地图</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

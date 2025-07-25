@@ -372,6 +372,11 @@ footer {
         padding: 1.5rem;
     }
 
+    .nav-brand {
+        width: 100%;
+        justify-content: center;
+    }
+
     .nav-search {
         width: 100%;
     }
@@ -379,6 +384,11 @@ footer {
     .nav-links {
         width: 100%;
         justify-content: center;
+    }
+
+    .nav-links a {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
     }
 
     .filters {
@@ -390,6 +400,11 @@ footer {
     .filter-tags {
         width: 100%;
         justify-content: center;
+    }
+
+    .tag {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.85rem;
     }
 
     .sort-options {
@@ -408,5 +423,81 @@ footer {
     .footer-content {
         grid-template-columns: 1fr;
         gap: 2rem;
+    }
+
+    .case-prompt {
+        padding: 1rem;
+    }
+
+    .prompt-text {
+        font-size: 0.9rem;
+    }
+
+    .copy-prompt {
+        padding: 0.4rem;
+        right: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 1rem;
+    }
+
+    .nav-brand {
+        font-size: 1.25rem;
+    }
+
+    .nav-brand i {
+        font-size: 1.5rem;
+    }
+
+    .nav-search input {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .nav-search button {
+        padding: 0.6rem 1rem;
+    }
+
+    .nav-links {
+        gap: 0.75rem;
+    }
+
+    .nav-links a {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.8rem;
+    }
+
+    .filters {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .filter-tags {
+        gap: 0.5rem;
+    }
+
+    .tag {
+        padding: 0.35rem 0.6rem;
+        font-size: 0.8rem;
+    }
+
+    .cases-container {
+        padding: 0 1rem;
+        gap: 1.5rem;
+    }
+
+    .case-content {
+        padding: 1rem;
+    }
+
+    .case-title {
+        font-size: 1.1rem;
+    }
+
+    .footer-content {
+        padding: 0 1rem;
     }
 } 

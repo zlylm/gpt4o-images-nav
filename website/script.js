@@ -377,21 +377,33 @@ function initializeProductShowcase() {
     
     if (showcaseTabs.length === 0) return;
     
+    console.log('找到标签页:', showcaseTabs.length);
+    console.log('找到产品详情:', productDetails.length);
+    
     showcaseTabs.forEach(tab => {
         tab.addEventListener('click', function() {
             const targetProduct = this.getAttribute('data-product');
+            console.log('点击的产品:', targetProduct);
             
             // 移除所有活跃状态
             showcaseTabs.forEach(t => t.classList.remove('active'));
-            productDetails.forEach(d => d.classList.remove('active'));
+            productDetails.forEach(d => {
+                d.classList.remove('active');
+                console.log('移除active:', d.getAttribute('data-product'));
+            });
             
             // 添加当前活跃状态
             this.classList.add('active');
-            const targetDetail = document.querySelector(`[data-product="${targetProduct}"]`);
+            const targetDetail = document.querySelector(`.product-detail[data-product="${targetProduct}"]`);
+            console.log('找到目标详情:', targetDetail);
+            
             if (targetDetail) {
                 setTimeout(() => {
                     targetDetail.classList.add('active');
+                    console.log('添加active到:', targetProduct);
                 }, 100);
+            } else {
+                console.error('未找到目标产品详情:', targetProduct);
             }
         });
     });

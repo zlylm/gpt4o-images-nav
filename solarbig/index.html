@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧路灯监控中心</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- ECharts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    
+    <!-- 腾讯地图API -->
+    <script src="https://map.qq.com/api/gljs?v=1.exp&key=YOUR_API_KEY"></script>
+    
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-slate-900 text-white overflow-hidden">
+    <!-- 主容器 -->
+    <div id="app" class="h-screen w-screen flex flex-col">
+        <!-- 顶部状态栏 -->
+        <header id="header" class="h-20 bg-gradient-to-r from-slate-800/80 to-slate-700/80 backdrop-blur-sm border-b border-cyan-500/30">
+            <div class="h-full flex items-center justify-between px-8">
+                <!-- 左侧标题 -->
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center shadow-lg shadow-cyan-500/50">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2L2 7v10c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V7l-10-5z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+                            智慧路灯监控中心
+                        </h1>
+                        <p class="text-sm text-slate-400">IoT Street Light Management System</p>
+                    </div>
+                </div>
+                
+                <!-- 中央时间天气 -->
+                <div class="flex items-center space-x-8">
+                    <div class="text-center">
+                        <div id="current-time" class="text-xl font-mono text-cyan-400"></div>
+                        <div class="text-sm text-slate-400">当前时间</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-lg text-blue-400">晴朗 22°C</div>
+                        <div class="text-sm text-slate-400">天气状况</div>
+                    </div>
+                </div>
+                
+                <!-- 右侧关键指标 -->
+                <div class="flex items-center space-x-6">
+                    <div class="text-center">
+                        <div id="online-devices" class="text-3xl font-bold text-green-400">1,248</div>
+                        <div class="text-sm text-slate-400">在线设备</div>
+                    </div>
+                    <div class="text-center">
+                        <div id="offline-devices" class="text-3xl font-bold text-red-400">12</div>
+                        <div class="text-sm text-slate-400">故障设备</div>
+                    </div>
+                    <div class="text-center">
+                        <div id="online-rate" class="text-3xl font-bold text-cyan-400">99.2%</div>
+                        <div class="text-sm text-slate-400">在线率</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主内容区域 -->
+        <main class="flex-1 flex">
+            <!-- 左侧设备概览面板 -->
+            <aside class="w-80 bg-slate-800/50 backdrop-blur-sm border-r border-cyan-500/30 p-6">
+                <div class="space-y-6">
+                    <!-- 设备总览卡片 -->
+                    <div class="glass-card p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-cyan-400">设备总览</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-300">路灯总数</span>
+                                <span class="text-2xl font-bold text-white">1,260</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-300">在线设备</span>
+                                <span class="text-2xl font-bold text-green-400">1,248</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-300">故障设备</span>
+                                <span class="text-2xl font-bold text-red-400">12</span>
+                            </div>
+                            <div class="w-full bg-slate-700 rounded-full h-2">
+                                <div class="bg-gradient-to-r from-green-400 to-cyan-400 h-2 rounded-full" style="width: 99.2%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 能耗统计 -->
+                    <div class="glass-card p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-cyan-400">今日能耗</h3>
+                        <div id="energy-chart" class="h-32"></div>
+                        <div class="mt-4 text-center">
+                            <span class="text-2xl font-bold text-yellow-400">2,847</span>
+                            <span class="text-slate-400 ml-2">kWh</span>
+                        </div>
+                    </div>
+
+                    <!-- 区域分布 -->
+                    <div class="glass-card p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-cyan-400">区域分布</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center p-3 bg-slate-700/50 rounded-lg">
+                                <span class="text-slate-300">市中心区</span>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-green-400">●</span>
+                                    <span class="text-white">342</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-slate-700/50 rounded-lg">
+                                <span class="text-slate-300">开发区</span>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-green-400">●</span>
+                                    <span class="text-white">298</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-slate-700/50 rounded-lg">
+                                <span class="text-slate-300">工业园区</span>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-yellow-400">●</span>
+                                    <span class="text-white">186</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-slate-700/50 rounded-lg">
+                                <span class="text-slate-300">住宅区</span>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-green-400">●</span>
+                                    <span class="text-white">434</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 中央地图监控区域 -->
+            <section class="flex-1 relative">
+                <div id="map-container" class="w-full h-full bg-slate-900">
+                    <!-- 地图将在这里渲染 -->
+                    <div class="flex items-center justify-center h-full">
+                        <div class="text-center">
+                            <div class="w-16 h-16 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                            <p class="text-slate-400">地图加载中...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 地图控制面板 -->
+                <div class="absolute top-4 right-4 glass-card p-4">
+                    <div class="flex flex-col space-y-2">
+                        <button class="px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 rounded-lg text-cyan-400 transition-colors">
+                            全部设备
+                        </button>
+                        <button class="px-4 py-2 bg-green-500/20 hover:bg-green-500/30 rounded-lg text-green-400 transition-colors">
+                            正常设备
+                        </button>
+                        <button class="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 rounded-lg text-red-400 transition-colors">
+                            故障设备
+                        </button>
+                        <button class="px-4 py-2 bg-yellow-500/20 hover:bg-yellow-500/30 rounded-lg text-yellow-400 transition-colors">
+                            维护中
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 右侧数据分析面板 -->
+            <aside class="w-80 bg-slate-800/50 backdrop-blur-sm border-l border-cyan-500/30 p-6">
+                <div class="space-y-6">
+                    <!-- 能耗趋势 -->
+                    <div class="glass-card p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-cyan-400">7天能耗趋势</h3>
+                        <div id="energy-trend-chart" class="h-40"></div>
+                    </div>
+
+                    <!-- 故障统计 -->
+                    <div class="glass-card p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-cyan-400">故障类型分布</h3>
+                        <div id="fault-chart" class="h-40"></div>
+                    </div>
+
+                    <!-- 维护计划 -->
+                    <div class="glass-card p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-cyan-400">维护计划</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-3 p-3 bg-slate-700/50 rounded-lg">
+                                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                                <div class="flex-1">
+                                    <p class="text-sm text-white">中山路段例行检查</p>
+                                    <p class="text-xs text-slate-400">今天 14:00</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 bg-slate-700/50 rounded-lg">
+                                <div class="w-3 h-3 bg-blue-400 rounded-full"></div>
+                                <div class="flex-1">
+                                    <p class="text-sm text-white">LED灯具更换</p>
+                                    <p class="text-xs text-slate-400">明天 09:00</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 bg-slate-700/50 rounded-lg">
+                                <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                                <div class="flex-1">
+                                    <p class="text-sm text-white">控制器升级</p>
+                                    <p class="text-xs text-slate-400">12-28 10:00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- 底部实时信息流 -->
+        <footer class="h-16 bg-slate-800/80 backdrop-blur-sm border-t border-cyan-500/30">
+            <div class="h-full flex items-center px-8">
+                <div class="flex items-center space-x-4">
+                    <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                    <span class="text-slate-300">实时状态：</span>
+                </div>
+                <div id="status-ticker" class="flex-1 ml-4 overflow-hidden">
+                    <div class="animate-marquee whitespace-nowrap">
+                        <span class="text-green-400">[14:23:45]</span> 设备 SL-001 状态正常 
+                        <span class="mx-8 text-yellow-400">[14:22:12]</span> 设备 SL-156 开始维护模式
+                        <span class="mx-8 text-red-400">[14:20:33]</span> 设备 SL-089 通信异常
+                        <span class="mx-8 text-blue-400">[14:19:15]</span> 中山路段亮度调节完成
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="websocket-simulator.js"></script>
+    <script src="map.js"></script>
+    <script src="performance-monitor.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

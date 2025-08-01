@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分类轮播测试页面</title>
+    <link rel="stylesheet" href="category-carousel.css">
+    <style>
+        .test-controls {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .test-controls h2 {
+            color: #1565C0;
+            margin-bottom: 15px;
+        }
+        
+        .control-group {
+            margin-bottom: 15px;
+        }
+        
+        .control-group label {
+            display: inline-block;
+            width: 120px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .control-group button {
+            margin-right: 10px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            background: #1565C0;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .control-group button:hover {
+            background: #0d47a1;
+        }
+        
+        .status-info {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .status-info pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .demo-note {
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            border: 1px solid #2196F3;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .demo-note h3 {
+            color: #1565C0;
+            margin-bottom: 10px;
+        }
+        
+        .demo-note ul {
+            color: #333;
+            margin-left: 20px;
+        }
+        
+        .demo-note li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>分类产品轮播测试</h1>
+        
+        <!-- 功能说明 -->
+        <div class="demo-note">
+            <h3>🎯 功能说明</h3>
+            <ul>
+                <li><strong>分类轮播</strong>：智慧路灯、智慧农业、智慧停车、智慧水利四个大分类进行轮播</li>
+                <li><strong>产品展示</strong>：每个分类页面展示该分类下的5-6个产品（网格布局）</li>
+                <li><strong>分页器</strong>：底部的分类标签作为分页器，可点击切换</li>
+                <li><strong>自动播放</strong>：每6秒自动切换到下一个分类</li>
+                <li><strong>无限循环</strong>：支持无缝循环播放</li>
+            </ul>
+        </div>
+        
+        <!-- 测试控制面板 -->
+        <div class="test-controls">
+            <h2>🎛️ 控制面板</h2>
+            
+            <div class="control-group">
+                <label>分类导航:</label>
+                <button onclick="testCarousel.prevCategory()">上一个分类</button>
+                <button onclick="testCarousel.nextCategory()">下一个分类</button>
+                <button onclick="testCarousel.goToCategory(0)">跳转到第1个</button>
+            </div>
+            
+            <div class="control-group">
+                <label>播放控制:</label>
+                <button onclick="testCarousel.startAutoPlay()">开始自动播放</button>
+                <button onclick="testCarousel.pauseAutoPlay()">暂停自动播放</button>
+            </div>
+            
+            <div class="control-group">
+                <label>快速跳转:</label>
+                <button onclick="testCarousel.goToCategory(0)">智慧路灯</button>
+                <button onclick="testCarousel.goToCategory(1)">智慧农业</button>
+                <button onclick="testCarousel.goToCategory(2)">智慧停车</button>
+                <button onclick="testCarousel.goToCategory(3)">智慧水利</button>
+            </div>
+            
+            <div class="control-group">
+                <label>状态信息:</label>
+                <button onclick="updateStatus()">刷新状态</button>
+            </div>
+            
+            <div class="status-info">
+                <pre id="statusDisplay">点击"刷新状态"查看当前状态</pre>
+            </div>
+        </div>
+        
+        <!-- 分类轮播容器 -->
+        <!-- 分类轮播容器 -->
+        <div id="categoryCarousel" class="category-carousel smart-lighting">
+            <!-- 轮播内容区域 -->
+            <div class="carousel-content">
+                <!-- 左侧分页器 -->
+                <div class="carousel-indicators">
+                    <!-- 动态生成的分类指示器 -->
+                </div>
+                
+                <!-- 右侧产品展示区域 -->
+                <div class="carousel-wrapper">
+                    <div class="carousel-track">
+                        <!-- 动态生成的分类页面 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="category-carousel.js"></script>
+    <script>
+        let testCarousel;
+        
+        // 测试数据
+        const testData = {
+            'smart-lighting': [
+                {
+                    id: '401',
+                    name: '401智能控制模块',
+                    description: '高效节能的智能路灯控制系统，支持远程监控和自动调节亮度',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                },
+                {
+                    id: '402',
+                    name: '402传感器模块',
+                    description: '集成多种传感器，实现环境监测和智能感应功能',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                },
+                {
+                    id: '403',
+                    name: '403通信模块',
+                    description: '稳定可靠的无线通信解决方案，支持多种通信协议',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                },
+                {
+                    id: '404',
+                    name: '404电源管理模块',
+                    description: '智能电源管理系统，优化能耗分配和电力监控',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                },
+                {
+                    id: '405',
+                    name: '405维护检测模块',
+                    description: '自动检测路灯运行状态，及时发现和报告故障信息',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                },
+                {
+                    id: '406',
+                    name: '406数据采集模块',
+                    description: '实时采集路灯使用数据，为智能调度提供数据支持',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                }
+            ],
+            'smart-agriculture': [
+                {
+                    id: 'FM001',
+                    name: 'FM001土壤监测模块',
+                    description: '精准监测土壤湿度、温度、pH值和养分含量',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                },
+                {
+                    id: 'FM002',
+                    name: 'FM002灌溉控制模块',
+                    description: '智能灌溉系统，根据土壤状况自动调节水量和灌溉时间',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                },
+                {
+                    id: 'FM003',
+                    name: 'FM003气象监测模块',
+                    description: '实时监测温度、湿度、风速、降雨量等气象数据',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                },
+                {
+                    id: 'FM004',
+                    name: 'FM004作物生长监测',
+                    description: '通过图像识别技术监测作物生长状态和病虫害情况',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                },
+                {
+                    id: 'FM005',
+                    name: 'FM005智能施肥模块',
+                    description: '根据土壤养分状况智能配比和施放肥料',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                }
+            ],
+            'smart-parking': [
+                {
+                    id: 'P001',
+                    name: 'P001车位检测模块',
+                    description: '实时检测车位占用状态，提供准确的停车位信息',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                },
+                {
+                    id: 'P002',
+                    name: 'P002支付管理模块',
+                    description: '支持多种支付方式的智能停车收费管理系统',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                },
+                {
+                    id: 'P003',
+                    name: 'P003导航引导模块',
+                    description: '智能导航系统，快速引导车辆找到最近的空闲车位',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                },
+                {
+                    id: 'P004',
+                    name: 'P004安防监控模块',
+                    description: '24小时安防监控系统，保障停车场安全',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                },
+                {
+                    id: 'P005',
+                    name: 'P005数据分析模块',
+                    description: '停车数据分析和统计，优化停车场运营效率',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                },
+                {
+                    id: 'P006',
+                    name: 'P006车牌识别模块',
+                    description: '高精度车牌识别技术，实现无感进出停车场',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                }
+            ],
+            'smart-water': [
+                {
+                    id: 'W001',
+                    name: 'W001水质监测模块',
+                    description: '实时监测水质各项指标，确保供水安全',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                },
+                {
+                    id: 'W002',
+                    name: 'W002流量控制模块',
+                    description: '智能调节水流量，优化水资源分配',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                },
+                {
+                    id: 'W003',
+                    name: 'W003压力监测模块',
+                    description: '监测管网压力变化，及时发现管道问题',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                },
+                {
+                    id: 'W004',
+                    name: 'W004漏损检测模块',
+                    description: '精确定位管道漏损点，减少水资源浪费',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                },
+                {
+                    id: 'W005',
+                    name: 'W005智能阀门模块',
+                    description: '远程控制阀门开关，实现精准供水管理',
+                    image: 'https://image.xmnengjia.com/group1/M00/00/03/rBKIJ2NsaBiACEXIAASZ4VyotZE027.png'
+                }
+            ]
+        };
+        
+        // 初始化分类轮播插件
+        document.addEventListener('DOMContentLoaded', function() {
+            testCarousel = new CategoryCarousel('#categoryCarousel', {
+                autoPlay: true,
+                autoPlayInterval: 3000,
+                infinite: true,
+                animationDuration: 800,
+                productsPerPage: 6,
+                data: testData,
+                onCategoryChange: function(index, category) {
+                    console.log(`分类切换: 索引=${index}, 分类=${category}`);
+                    updateStatus();
+                }
+            });
+            
+            // 初始状态显示
+            setTimeout(updateStatus, 500);
+        });
+        
+        // 更新状态显示
+        function updateStatus() {
+            if (!testCarousel) return;
+            
+            const state = testCarousel.getCurrentState();
+            
+            const statusInfo = {
+                '当前分类索引': state.currentIndex,
+                '当前分类': state.currentCategory,
+                '分类显示名': testCarousel.getCategoryDisplayName(state.currentCategory),
+                '是否动画中': state.isAnimating,
+                '自动播放状态': state.autoPlayActive ? '开启' : '关闭',
+                '总分类数': state.totalCategories,
+                '时间戳': new Date().toLocaleTimeString()
+            };
+            
+            document.getElementById('statusDisplay').textContent = 
+                JSON.stringify(statusInfo, null, 2);
+        }
+        
+        // 定期更新状态
+        setInterval(updateStatus, 3000);
+    </script>
+</body>
+</html>

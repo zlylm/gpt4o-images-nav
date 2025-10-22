@@ -1,131 +1,235 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPT-4o 图片案例展示</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Wi-SUN street light controller for smart city and solar lighting systems. Build a wireless mesh network for efficient, scalable, and cost-saving lighting management." />
+  <meta name="keywords" content="Wi-SUN street light controller, smart lighting controller, IoT street lighting system, wireless mesh lighting, smart city lighting, solar street light controller" />
+  <title>Wi-SUN Street Light Controller | Smart Lighting IoT Solution</title>
+
+  <!-- ✅ Structured Data for Google Rich Results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": "Wi-SUN Street Light Controller",
+    "image": "https://www.example.com/images/wisun-controller.jpg",
+    "description": "Smart Wi-SUN street light controller with wireless mesh networking, energy-saving management, and remote monitoring. Ideal for smart cities and solar lighting projects.",
+    "brand": {
+      "@type": "Brand",
+      "name": "Your Company Name"
+    },
+    "sku": "WSN-LC100",
+    "mpn": "WSN-LC100",
+    "offers": {
+      "@type": "Offer",
+      "url": "https://www.example.com/products/wisun-street-light-controller",
+      "priceCurrency": "USD",
+      "price": "49.00",
+      "availability": "https://schema.org/InStock",
+      "seller": {
+        "@type": "Organization",
+        "name": "Your Company Name"
+      }
+    }
+  }
+  </script>
+
+  <style>
+    body {
+      font-family: "Roboto", Arial, sans-serif;
+      line-height: 1.6;
+      color: #222;
+      margin: 0;
+      background: #f8fafc;
+    }
+    header {
+      background: linear-gradient(135deg, #004aad, #0099ff);
+      color: #fff;
+      text-align: center;
+      padding: 80px 20px;
+    }
+    header h1 {
+      font-size: 2.6rem;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    section {
+      padding: 60px 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    h2 {
+      color: #004aad;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .features, .advantages, .applications {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      padding: 25px;
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    footer {
+      background: #002c66;
+      color: #fff;
+      text-align: center;
+      padding: 50px 20px;
+      font-size: 0.95rem;
+    }
+    .cta {
+      text-align: center;
+      margin-top: 40px;
+    }
+    .cta a {
+      background: #ff7a00;
+      color: #fff;
+      padding: 15px 30px;
+      border-radius: 6px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    .cta a:hover {
+      background: #ff9b33;
+    }
+    img {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+  </style>
 </head>
+
 <body>
-    <nav class="navbar">
-        <div class="nav-brand">
-            <i class="fas fa-images"></i>
-            <span>GPT-4o 图片案例</span>
-        </div>
-        <div class="nav-search">
-            <input type="text" placeholder="搜索案例...">
-            <button><i class="fas fa-search"></i></button>
-        </div>
-        <div class="nav-links">
-            <a href="#" class="active">首页</a>
-            <a href="#">最新</a>
-            <a href="#">热门</a>
-        </div>
-    </nav>
 
-    <div class="filters">
-        <div class="filter-tags">
-            <span class="tag active">全部</span>
-            <span class="tag">人物</span>
-            <span class="tag">风景</span>
-            <span class="tag">艺术</span>
-            <span class="tag">设计</span>
-        </div>
-        <div class="sort-options">
-            <select>
-                <option value="latest">最新发布</option>
-                <option value="popular">最受欢迎</option>
-                <option value="random">随机排序</option>
-            </select>
-        </div>
+  <!-- ===== HEADER ===== -->
+  <header>
+    <h1>Wi-SUN Street Light Controller</h1>
+    <p>Build smarter, more efficient street lighting with Wi-SUN wireless mesh networking technology.</p>
+    <div class="cta">
+      <a href="#contact">Get a Quote</a>
     </div>
+  </header>
 
-    <main>
-        <div class="cases-container" id="casesContainer">
-            <!-- 案例将通过JavaScript动态加载 -->
-        </div>
-    </main>
+  <!-- ===== INTRODUCTION ===== -->
+  <section>
+    <h2>About the Product</h2>
+    <p>
+      The <strong>Wi-SUN Street Light Controller</strong> is designed for next-generation smart lighting networks. 
+      Using the <strong>Wi-SUN FAN (Field Area Network)</strong> protocol, it enables large-scale wireless mesh communication 
+      across thousands of streetlights — all connected through a single gateway. 
+      This allows real-time monitoring, adaptive brightness control, and reduced energy consumption for both solar and grid-powered systems.
+    </p>
+    <img src="images/wisun-controller.png" alt="Wi-SUN street light controller device" />
+  </section>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>项目信息</h3>
-                <p>展示GPT-4o生成的最优秀图片案例，分享创意和灵感。</p>
-            </div>
+  <!-- ===== FEATURES ===== -->
+  <section>
+    <h2>Core Features</h2>
+    <div class="features">
+      <div class="card">
+        <h3>Self-Healing Mesh Network</h3>
+        <p>Each light controller acts as a router node, ensuring continuous connectivity even if one path fails.</p>
+      </div>
+      <div class="card">
+        <h3>Low-Cost Deployment</h3>
+        <p>No SIM cards, no monthly fees — one gateway manages hundreds of nodes wirelessly.</p>
+      </div>
+      <div class="card">
+        <h3>Energy Optimization</h3>
+        <p>Automatically adjusts light levels based on time schedules, motion, or environmental brightness.</p>
+      </div>
+      <div class="card">
+        <h3>Cloud Monitoring</h3>
+        <p>Support remote data analytics, fault alarms, and parameter configuration through IoT platform integration.</p>
+      </div>
+      <div class="card">
+        <h3>High Security</h3>
+        <p>IPv6-based communication with AES encryption ensures robust network security and data integrity.</p>
+      </div>
+    </div>
+  </section>
 
-            <div class="footer-section">
-                <h3>项目信息</h3>
-                <p>展示GPT-4o生成的最优秀图片案例，分享创意和灵感。</p>
-            </div>
-            
-            <div class="footer-section">
-                <h3>项目地址</h3>
-                <div class="social-links">
+  <!-- ===== NETWORK TOPOLOGY ===== -->
+  <section>
+    <h2>Wi-SUN Mesh Architecture</h2>
+    <p>
+      The Wi-SUN network allows each streetlight controller to connect with neighboring devices, 
+      forming a multi-hop wireless mesh. Only one gateway is required to connect hundreds of nodes to the cloud, 
+      significantly reducing installation and maintenance costs.
+    </p>
+    <img src="images/wisun-network-topology.png" alt="Wi-SUN mesh lighting network topology" />
+  </section>
 
-                    <a href="https://github.com/jamez-bondos/awesome-gpt4o-images"><i class="fab fa-github"></i></a>
-                    <a href="https://github.com/jamez-bondos/awesome-gpt4o-images"><i class="fab fa-github"></i></a>
-                    <a href="https://github.com/jamez-bondos/awesome-gpt4o-images"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 GPT-4o 图片案例展示. All rights reserved.</p>
-        </div>
-    </footer>
+  <!-- ===== APPLICATIONS ===== -->
+  <section>
+    <h2>Applications</h2>
+    <div class="applications">
+      <div class="card">
+        <h3>Urban Smart Lighting</h3>
+        <p>City-wide lighting management with remote monitoring, dimming, and fault detection.</p>
+      </div>
+      <div class="card">
+        <h3>Solar Street Lighting</h3>
+        <p>Ideal for off-grid projects using solar power, ensuring stable communication without cellular networks.</p>
+      </div>
+      <div class="card">
+        <h3>Industrial & Campus Lighting</h3>
+        <p>Reliable wireless control for large industrial parks, smart campuses, and parking lots.</p>
+      </div>
+    </div>
+  </section>
 
-    <script src="cases-data.js"></script>
-    <script>
-        function renderCases(cases = resultArr) {
-            const container = document.getElementById('casesContainer');
-            container.innerHTML = '';
+  <!-- ===== COMPARISON ===== -->
+  <section>
+    <h2>Why Choose Wi-SUN Over 4G?</h2>
+    <div class="advantages">
+      <div class="card">
+        <h3>Cost Efficiency</h3>
+        <p>Eliminate SIM card and data charges — scale your network at a fraction of the cost of 4G solutions.</p>
+      </div>
+      <div class="card">
+        <h3>Scalable Network</h3>
+        <p>One gateway covers hundreds of streetlights with stable connectivity and self-healing mesh routing.</p>
+      </div>
+      <div class="card">
+        <h3>Reliable in Harsh Environments</h3>
+        <p>Wi-SUN operates reliably even in areas with weak or no cellular coverage.</p>
+      </div>
+    </div>
+  </section>
 
-            cases.forEach(function(caseItem) {
-                const card = document.createElement('div');
-                card.className = 'case-card';
-                card.innerHTML = `
-                    <div class="case-image-container">
-                        <img src="${caseItem.image}" alt="${caseItem.name}" class="case-image" loading="lazy">
-                        <div class="case-overlay">
-                            <button class="view-details">查看详情</button>
-                        </div>
-                    </div>
-                    <div class="case-content">
-                        <h3 class="case-title">${caseItem.name}</h3>
-                        <div class="case-author">
-                            <i class="fas fa-user"></i>
-                            <span>${caseItem.author}</span>
-                        </div>
-                        <div class="case-prompt">
-                            <i class="fas fa-quote-left"></i>
-                            <div class="prompt-text">${caseItem.prompt}</div>
-                            <button class="copy-prompt" title="复制提示词">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
+  <!-- ===== CTA ===== -->
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <p style="text-align:center; max-width:700px; margin:auto;">
+      Looking for a trusted partner for <strong>Wi-SUN smart lighting solutions</strong>?  
+      We offer OEM/ODM customization, integration support, and global shipment.
+    </p>
+    <div class="cta">
+      <a href="mailto:912924984@qq.com">Contact Sales</a>
+    </div>
+  </section>
 
-                // 添加复制功能
-                const copyButton = card.querySelector('.copy-prompt');
-                copyButton.addEventListener('click', function() {
-                    navigator.clipboard.writeText(caseItem.prompt).then(() => {
-                        copyButton.classList.add('copied');
-                        copyButton.innerHTML = '<i class="fas fa-check"></i>';
-                        setTimeout(() => {
-                            copyButton.classList.remove('copied');
-                            copyButton.innerHTML = '<i class="fas fa-copy"></i>';
-                        }, 2000);
-                    });
-                });
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>© 2025 iot8.xyz. All rights reserved.</p>
+    <p>Email: <a href="mailto:912924984@qq.com">912924984@qq.com</a> | Website: <a href="https://iot8.xyz/">www.iot8.xyz</a></p>
+  </footer>
 
-                container.appendChild(card);
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            renderCases();
-        });
-    </script>
 </body>
-</html> 
+</html>

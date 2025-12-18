@@ -225,7 +225,7 @@
         }
         
         // ==================== 3. GESTURE识别逻辑 ====================
-        let hands, camera, isHandTrackingReady = false;
+        let hands, cameraGes, isHandTrackingReady = false;
         let fistState = false; // 记录握拳状态
         let lastFistChange = 0; // 防抖动
         let fpsCounter = 0, lastFPSUpdate = 0;
@@ -250,7 +250,7 @@
                 
                 // 初始化摄像头
                 const videoElement = document.getElementById('webcam');
-                camera = new Camera(videoElement, {
+                cameraGes = new Camera(videoElement, {
                     async onFrame() {
                         if (!isHandTrackingReady) return;
                         await hands.send({ image: videoElement });
@@ -259,7 +259,7 @@
                     height: 480
                 });
                 
-                await camera.start();
+                await cameraGes.start();
                 isHandTrackingReady = true;
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('detect-state').textContent = '就绪';

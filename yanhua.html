@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手势控制烟花 - Three.js + MediaPipe</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #000; font-family: Arial, sans-serif; }
+        #canvas-container { width: 100vw; height: 100vh; position: relative; }
+        #webcam { position: absolute; top: 10px; left: 10px; width: 160px; height: 120px; 
+                 border: 2px solid #00ff00; border-radius: 8px; z-index: 100; }
+        #info { position: absolute; bottom: 20px; left: 20px; color: #00ff00; 
+                font-size: 14px; z-index: 100; text-shadow: 0 0 10px #00ff00; }
+        #status { position: absolute; top: 20px; right: 20px; color: #fff; 
+                  font-size: 16px; z-index: 100; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px; }
+        .loading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                   color: #00ff00; font-size: 24px; z-index: 200; }
+    </style>
+    <!-- 引入Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- 引入MediaPipe Hands -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    <video id="webcam" autoplay playsinline></video>
+    <div id="info">张开手掌触发烟花 | 检测状态：<span id="detect-state">等待...</span></div>
+    <div id="status">FPS: <span id="fps">0</span> | 烟花数: <span id="fireworks">0</span></div>
+    <div id="loading" class="loading">正在加载模型...</div>
+
+    <script>
+        // ==================== 1. THREE.JS 场景设置 ====================
+        let scene, camera, renderer, fireworks = [];
+        let particleTexture, glowTexture;
+        
+        function initThree() {
+            // 场景
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x000000, 0.001);
+            
+            // 相机
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 50;
+            
+            // 渲染器
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 1);
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+            
+            // 光源
+            const ambientLight = new THREE.AmbientLight(0x404040);
+            scene.add(ambientLight);
+            
+            // 创建粒子纹理（使用Canvas生成）
+            particleTexture = createParticleTexture();
+            glowTexture = createGlowTexture();
+            
+            // 窗口调整
+            window.addEventListener('resize', onWindowResize, false);
+            
+            // 启动渲染循环
+            animate();
+        }
+        
+        function createParticleTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 32; canvas.height = 32;
+            const ctx = canvas.getContext('2d');
+            const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+            gradient.addColorStop(0, 'rgba(255,255,255,1)');
+            gradient.addColorStop(1, 'rgba(255,255,255,0)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 32, 32);
+            const texture = new THREE.CanvasTexture(canvas);
+            return texture;
+        }
+        
+        function createGlowTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 64; canvas.height = 64;
+            const ctx = canvas.getContext('2d');
+            const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+            gradient.addColorStop(0, 'rgba(255,200,100,0.8)');
+            gradient.addColorStop(0.5, 'rgba(255,100,50,0.3)');
+            gradient.addColorStop(1, 'rgba(255,50,0,0)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 64, 64);
+            const texture = new THREE.CanvasTexture(canvas);
+            return texture;
+        }
+        
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        // ==================== 2. 烟花粒子系统 ====================
+        class Firework {
+            constructor(x, y, z) {
+                this.particles = [];
+                this.group = new THREE.Group();
+                this.group.position.set(x, y, z);
+                this.life = 0;
+                this.maxLife = 120; // 约2秒
+                
+                // 爆炸核心
+                this.createExplosion();
+                scene.add(this.group);
+            }
+            
+            createExplosion() {
+                const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff, 0xffaa00];
+                const particleCount = 150;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    const particle = this.createParticle(color);
+                    this.particles.push(particle);
+                    this.group.add(particle.mesh);
+                }
+            }
+            
+            createParticle(color) {
+                // 随机速度方向
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos(2 * Math.random() - 1);
+                const speed = 0.5 + Math.random() * 0.8;
+                
+                const velocity = new THREE.Vector3(
+                    speed * Math.sin(phi) * Math.cos(theta),
+                    speed * Math.sin(phi) * Math.sin(theta),
+                    speed * Math.cos(phi)
+                );
+                
+                // 粒子几何体
+                const geometry = new THREE.SphereGeometry(0.15, 8, 8);
+                const material = new THREE.MeshBasicMaterial({
+                    color: color,
+                    map: particleTexture,
+                    transparent: true,
+                    opacity: 1,
+                    blending: THREE.AdditiveBlending
+                });
+                
+                const mesh = new THREE.Mesh(geometry, material);
+                mesh.position.set(0, 0, 0);
+                
+                return {
+                    mesh: mesh,
+                    velocity: velocity,
+                    gravity: new THREE.Vector3(0, -0.01, 0),
+                    drag: 0.98,
+                    life: 0,
+                    maxLife: 60 + Math.random() * 40
+                };
+            }
+            
+            update() {
+                this.life++;
+                let alive = false;
+                
+                this.particles.forEach(p => {
+                    if (p.life < p.maxLife) {
+                        alive = true;
+                        p.life++;
+                        
+                        // 更新位置
+                        p.velocity.multiplyScalar(p.drag);
+                        p.velocity.add(p.gravity);
+                        p.mesh.position.add(p.velocity);
+                        
+                        // 更新透明度和大小
+                        const lifeRatio = p.life / p.maxLife;
+                        p.mesh.material.opacity = 1 - lifeRatio;
+                        const scale = 1 + lifeRatio * 0.5;
+                        p.mesh.scale.setScalar(scale);
+                        
+                        // 发光效果（前半生）
+                        if (lifeRatio < 0.3 && !p.glow) {
+                            const glowGeometry = new THREE.SphereGeometry(0.5, 6, 6);
+                            const glowMaterial = new THREE.MeshBasicMaterial({
+                                map: glowTexture,
+                                transparent: true,
+                                opacity: 0.6,
+                                blending: THREE.AdditiveBlending,
+                                color: p.mesh.material.color
+                            });
+                            p.glow = new THREE.Mesh(glowGeometry, glowMaterial);
+                            p.glow.position.copy(p.mesh.position);
+                            this.group.add(p.glow);
+                        }
+                        
+                        if (p.glow) {
+                            p.glow.position.copy(p.mesh.position);
+                            p.glow.material.opacity = (1 - lifeRatio) * 0.6;
+                            p.glow.scale.setScalar(1 + lifeRatio * 2);
+                        }
+                    }
+                });
+                
+                // 清理死亡粒子
+                if (!alive || this.life > this.maxLife) {
+                    this.dispose();
+                    return false;
+                }
+                return true;
+            }
+            
+            dispose() {
+                this.particles.forEach(p => {
+                    if (p.glow) {
+                        this.group.remove(p.glow);
+                        p.glow.geometry.dispose();
+                        p.glow.material.dispose();
+                    }
+                    this.group.remove(p.mesh);
+                    p.mesh.geometry.dispose();
+                    p.mesh.material.dispose();
+                });
+                scene.remove(this.group);
+            }
+        }
+        
+        // ==================== 3. GESTURE识别逻辑 ====================
+        let hands, camera, isHandTrackingReady = false;
+        let fistState = false; // 记录握拳状态
+        let lastFistChange = 0; // 防抖动
+        let fpsCounter = 0, lastFPSUpdate = 0;
+        
+        async function initHands() {
+            try {
+                // 初始化MediaPipe Hands
+                hands = new Hands({
+                    locateFile: (file) => {
+                        return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+                    }
+                });
+                
+                hands.setOptions({
+                    maxNumHands: 1,
+                    modelComplexity: 1,
+                    minDetectionConfidence: 0.5,
+                    minTrackingConfidence: 0.5
+                });
+                
+                hands.onResults(onHandsResults);
+                
+                // 初始化摄像头
+                const videoElement = document.getElementById('webcam');
+                camera = new Camera(videoElement, {
+                    async onFrame() {
+                        if (!isHandTrackingReady) return;
+                        await hands.send({ image: videoElement });
+                    },
+                    width: 640,
+                    height: 480
+                });
+                
+                await camera.start();
+                isHandTrackingReady = true;
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('detect-state').textContent = '就绪';
+                
+            } catch (error) {
+                console.error('初始化手势识别失败:', error);
+                document.getElementById('loading').textContent = '摄像头访问失败，请检查权限';
+            }
+        }
+        
+        function onHandsResults(results) {
+            fpsCounter++;
+            const now = performance.now();
+            if (now - lastFPSUpdate > 1000) {
+                document.getElementById('fps').textContent = fpsCounter;
+                fpsCounter = 0;
+                lastFPSUpdate = now;
+            }
+            
+            if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+                const landmarks = results.multiHandLandmarks[0];
+                const isFist = detectFist(landmarks);
+                
+                // 更新状态显示
+                document.getElementById('detect-state').textContent = isFist ? '握拳' : '张开';
+                
+                // 检测从握拳到张开的变化
+                if (fistState && !isFist && (now - lastFistChange > 500)) {
+                    // 触发烟花！
+                    triggerFirework();
+                    lastFistChange = now;
+                }
+                
+                fistState = isFist;
+            } else {
+                document.getElementById('detect-state').textContent = '未检测';
+            }
+        }
+        
+        function detectFist(landmarks) {
+            // 简单算法：检查所有指尖是否靠近掌心
+            // 指尖索引：0=拇指, 8=食指, 12=中指, 16=无名指, 20=小指
+            // 掌心参考点：0（手腕）或 9（掌心）
+            
+            const fingerTips = [4, 8, 12, 16, 20]; // 指尖
+            const wrist = landmarks[0]; // 手腕
+            const palm = landmarks[9];  // 掌心
+            
+            let closeCount = 0;
+            const threshold = 0.15; // 距离阈值
+            
+            fingerTips.forEach(tipIndex => {
+                const tip = landmarks[tipIndex];
+                const dist = Math.sqrt(
+                    Math.pow(tip.x - palm.x, 2) + 
+                    Math.pow(tip.y - palm.y, 2) + 
+                    Math.pow(tip.z - palm.z, 2)
+                );
+                if (dist < threshold) closeCount++;
+            });
+            
+            // 如果至少4根手指靠近掌心，认为是握拳
+            return closeCount >= 4;
+        }
+        
+        // ==================== 4. 烟花触发与动画 ====================
+        function triggerFirework() {
+            // 随机位置（在屏幕上半部分）
+            const x = (Math.random() - 0.5) * 40;
+            const y = 10 + Math.random() * 20;
+            const z = (Math.random() - 0.5) * 30;
+            
+            const firework = new Firework(x, y, z);
+            fireworks.push(firework);
+            
+            // 更新计数
+            document.getElementById('fireworks').textContent = fireworks.length;
+            
+            // 视觉反馈
+            document.getElementById('info').style.color = '#ff00ff';
+            setTimeout(() => {
+                document.getElementById('info').style.color = '#00ff00';
+            }, 200);
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // 更新所有烟花
+            fireworks = fireworks.filter(fw => fw.update());
+            
+            // 相机轻微摆动增加动感
+            camera.position.x = Math.sin(Date.now() * 0.0005) * 2;
+            camera.position.y = Math.cos(Date.now() * 0.0003) * 1;
+            camera.lookAt(0, 0, 0);
+            
+            renderer.render(scene, camera);
+        }
+        
+        // ==================== 5. 启动应用 ====================
+        window.addEventListener('DOMContentLoaded', async () => {
+            initThree();
+            await initHands();
+        });
+        
+        // 错误处理
+        window.addEventListener('error', (e) => {
+            console.error('应用错误:', e.error);
+            document.getElementById('loading').textContent = '错误: ' + e.message;
+        });
+    </script>
+</body>
+</html>
